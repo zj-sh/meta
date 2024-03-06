@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_org.proto";
+
+message IssuesParam {
+    meta.v1.base.JsonString params = 1;
+    meta.v1.base.Userinfo to = 2;
+    repeated meta.v1.base.Userinfo at = 3;
+    string title = 4;                 // issue的标题
+    string rich_text = 5;             // issue的富文本（rich_text == markdown == content）
+    string markdown = 6;              // issue的markdown（rich_text == markdown == content）
+    string content = 7;               // issue的内容纯文本（rich_text == markdown == content）
+    string url = 8;                   // issue的url，如果有值说明可以支持跳转
+}

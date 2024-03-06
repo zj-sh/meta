@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+import "v1/base/meta_form.proto";
+
+// 功能类别
+enum JobAttrib {
+    ATTRIB_UNKNOWN = 0;
+    ATTRIB_PLATFORM = 1; // 平台功能套件
+    ATTRIB_PIPELINE = 2; // 流水线功能套件
+}
+// 任务功能
+enum JobEffect {
+    EFFECT_UNKNOWN = 0;
+    EFFECT_SOURCE_PULL = 1;    // 源代码拉取
+    EFFECT_SOURCE_AUTH = 2;    // 源代码认证
+    EFFECT_SOURCE_SCAN = 3;    // 源代码校验
+    EFFECT_CONFIG = 4;         // 配置管理
+    EFFECT_TEST = 5;           // 测试
+    EFFECT_BUILD = 6;          // 构建
+    EFFECT_IMAGE = 7;          // 镜像
+    EFFECT_DEPLOY  = 8;        // 部署
+    EFFECT_DATA = 9;           // 数据
+    EFFECT_VERSION = 10;       // 版本
+    EFFECT_NOTIFY = 11;        // 通知
+    EFFECT_APPROVAL  = 12;     // 审批
+    EFFECT_STORAGE  = 13;      // 存储
+    EFFECT_PRODUCT  = 14;      // 制品
+    EFFECT_SHELL = 15;         // 脚本
+    EFFECT_ISSUES = 16;        // 协同
+    EFFECT_ORG = 50;           // 组织架构同步
+    EFFECT_CUSTOM = 98;        // 自定义
+    EFFECT_PIPE = 99;          // 流水线
+}
+
+message JobFields {
+    repeated meta.v1.base.Field params = 1;
+    repeated meta.v1.base.LabelField outs = 2;
+}

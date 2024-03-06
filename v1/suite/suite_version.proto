@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+
+import "v1/base/meta.proto";
+
+message VersionParam{
+    meta.v1.base.JsonString params = 1;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/pipe/pipeline_vars.proto";
+import "v1/suite/meta_running.proto";
+
+message PipelineRunParam {
+    meta.v1.base.JsonString params = 1;
+    string pipeline_id = 2;
+    repeated meta.v1.pipe.Var vars = 3;
+}
+message PipelineRunResponse {
+    string pipeline_id = 1;
+    string build_id = 2;
+    meta.v1.suite.OutResponse outs = 3;
+}
+message PipelineCancelParam {
+    meta.v1.base.JsonString params = 1;
+    string pipeline_id = 2;
+    string build_id = 3;
+}

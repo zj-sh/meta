@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package meta.v1.envs;
+option go_package = "github.com/zj-sh/meta/v1/envs";
+
+import "v1/pipe/pipeline_vars.proto";
+
+/**
+    * @description: 运行环境
+ */
+
+enum GatewayType {
+    GATEWAY_TYPE_UNKNOWN = 0;
+    INGRESS = 1;
+    EGRESS = 2;
+    HIGRESS = 3;
+}
+
+message Env {
+    string env_id = 1;
+    string env_name = 2;
+    string env_code = 3;
+    string project_id = 4;
+    string service_id = 5;
+    string cluster_id = 6;
+    string namespace = 7;
+    bool allow_test = 8;
+    meta.v1.envs.GatewayType gateway_type = 9;
+    repeated EnvPod env_pods = 10;
+    repeated meta.v1.pipe.Var env_vars = 11;
+    string env_desc = 12;
+}
+
+message EnvPod {
+    string name = 1;
+    string image = 2;
+}

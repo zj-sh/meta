@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_log.proto";
+import "v1/base/meta_pipeline.proto";
+import "v1/suite/meta_running.proto";
+
+message ImageBuildParam {
+    meta.v1.base.JsonString params = 1;
+    string name = 2; // docker image name
+    string tag = 3; // docker image tag
+    string repo = 4; // docker registry repo
+    string registry_auth = 5; // docker registry auth
+    string dockerfile = 6; // dockerfile path
+    string context_path = 7; // docker build 执行目录
+    repeated meta.v1.base.BuildArch arch = 8; // 构建架构
+    bool auto_push = 9; // 是否自动推送
+}
+message ImageBuildResponse {
+    meta.v1.base.RunStatus status = 1;
+    meta.v1.base.Log log = 2;
+    string message = 3;
+    meta.v1.suite.OutResponse outs = 4;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+import "v1/base/meta_log.proto";
+import "v1/pipe/pipeline.proto";
+import "v1/pipe/pipeline_vars.proto";
+import "v1/pipe/pipeline_status.proto";
+import "google/protobuf/timestamp.proto";
+
+// 流水线运行时
+
+message PipelineRun {
+    string pipeline_id = 1;
+    string build_id = 2;
+    int64 build_idx = 3;
+    string workspace = 4;
+    meta.v1.pipe.Pipeline pipeline = 5;
+    repeated meta.v1.pipe.Var vars = 6;
+    string uid = 7;
+    string cid = 8;
+}
+
+message PipelineStop {
+    string pipeline_id = 1;
+}
+
+message PipelineLogs {
+    string pipeline_id = 1;
+    string build_id = 2;
+    string job_id = 3;
+    string content = 4;
+    bool is_end = 5;
+    google.protobuf.Timestamp time = 6;
+    meta.v1.base.LogLevel level = 7;
+}
+
+message MessagePipelineStatus {
+    string pipeline_id = 1;
+    string build_id = 2;
+    string job_id = 3;
+    meta.v1.pipe.PipelineStatusType status = 4;
+}

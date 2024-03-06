@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+
+// 套件运行时结构体
+
+message SuiteApiOptionParam {
+    string api_name = 1;
+    string value = 2;
+    meta.v1.base.JsonString params = 3;
+}
+
+message SuiteApiOptionResult {
+    repeated meta.v1.base.Option options = 1;
+}
+
+message OutResponse {
+    map<string, string> values = 1;
+}

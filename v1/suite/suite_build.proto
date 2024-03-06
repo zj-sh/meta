@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_log.proto";
+import "v1/suite/meta_running.proto";
+
+enum BuildType {
+    BUILD_TYPE_UNKNOWN = 0;
+    BUILD_TYPE_IN_IMAGE = 1; // 镜像内构建
+    BUILD_TYPE_IN_MACHINE = 2; // 机器内构建
+}
+
+message BuildParam{
+    meta.v1.base.JsonString params = 1;  // go build -o app
+    BuildType build_type = 2; // 构建类型
+    string build_in = 3; // 构建基座，如果类型是BUILD_TYPE_IN_IMAGE，则为镜像名，如果类型是BUILD_TYPE_IN_MACHINE，则为机器ID
+    string build_out_path = 4; // 构建物路径
+}
+
+message BuildResponse {
+    meta.v1.base.RunStatus status = 1; // 运行状态
+    meta.v1.base.Log log = 2;
+    string message = 3;
+    meta.v1.suite.OutResponse outs = 4;
+}
+
+message BuildMachineParam {
+    string cmd_id = 1; // 命令id
+    string cmd = 2; // 命令
+    int64 timeout = 3; // 超时时间
+    bool is_cancel = 4; // 是否取消
+}
+
+message BuildMachineResponse {
+    string cmd_id = 1; // 命令id
+    string result = 2; // 结果
+    bool is_done = 3;  // 是否结束，只对应此id，并非全部结束
+}

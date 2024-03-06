@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_log.proto";
+import "v1/suite/meta_running.proto";
+
+message TestRunParam {
+    meta.v1.base.JsonString params = 1;
+    string cmd = 2;
+    int64 timeout = 3;
+    string report_dir = 4;
+}
+
+message TestRunResponse {
+    meta.v1.base.RunStatus status = 1;
+    meta.v1.base.Log log = 2;
+    string message = 3;
+    string id = 4;
+    meta.v1.suite.OutResponse outs = 5;
+}
+
+message TestCancelParam {
+    meta.v1.base.JsonString params = 1;
+    string id = 2;
+}

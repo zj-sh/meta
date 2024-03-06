@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_log.proto";
+import "v1/suite/meta_running.proto";
+
+message SourceScanParam {
+    meta.v1.base.JsonString params = 1;
+    string source = 2;
+    string exclude = 3;
+    string report_dir = 4;
+}
+
+message SourceScanResponse {
+    meta.v1.base.RunStatus status = 1;
+    meta.v1.base.Log log = 2;
+    string message = 3;
+    string id = 4;
+    string report_name = 5;
+    string report_url = 6;
+    meta.v1.suite.OutResponse outs = 7;
+}

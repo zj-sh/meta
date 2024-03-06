@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package meta.v1.clust;
+option go_package = "github.com/zj-sh/meta/v1/clust";
+
+enum ClusterType {
+    CLUSTER_TYPE_UNKNOWN = 0;
+    CLUSTER_CCE = 1;
+    CLUSTER_ACK = 2;
+    CLUSTER_TKE = 3;
+    CLUSTER_SELF = 4;
+}
+
+enum LinkType {
+    LINK_TYPE_UNKNOWN = 0;
+    LINK_KUBE_CONFIG = 1;
+}
+
+message ClusterTypeOption {
+    meta.v1.clust.ClusterType value = 1;
+    string label = 2;
+}
+message LinkTypeOption {
+    meta.v1.clust.LinkType value = 1;
+    string label = 2;
+}

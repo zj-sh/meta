@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package meta.v1.reqs;
+option go_package = "github.com/zj-sh/meta/v1/reqs";
+
+enum CronMode {
+    CRON_MODE_UNKNOWN = 0;
+    CRON_MODE_ONCE = 1;
+    CRON_MODE_LOOP = 2;
+}
+
+message ParamCronStart {
+    // @gotags: json:"cron_name" binding:"required"
+    string cron_name = 1;
+    // @gotags: json:"cron_spec" binding:"required"
+    string cron_spec = 2;
+    // @gotags: json:"cron_desc" binding:"required"
+    string cron_desc = 3;
+    // @gotags: json:"cron_serve" binding:"required"
+    string cron_serve = 4;
+    // @gotags: json:"cron_url"
+    string cron_url = 5;
+    // @gotags: json:"expires_time"
+    int64 expires_time = 6;
+    // @gotags: json:"cron_param"
+    string cron_param = 7;
+    // @gotags: json:"cron_mode"
+    CronMode cron_mode = 8;
+}
+message ParamCronStop {
+    // @gotags: json:"cron_name" binding:"required"
+    string cron_name = 1;
+}

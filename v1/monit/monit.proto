@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package meta.v1.monit;
+option go_package = "github.com/zj-sh/meta/v1/monit";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_log.proto";
+
+// 机器信息
+message Machine {
+    string machine_id = 1;
+    string machine_name = 2;
+}
+
+// SSH执行
+message SSHExecParam {
+    meta.v1.monit.Machine machine = 1;
+    string command = 2; // 执行脚本的command，值有 bash shell 等
+    string cwd = 3; // 执行脚本的工作目录
+    string cmd_id = 4; // 消息ID
+    string ctx_id = 5; // 执行上下文ID
+    string stdin = 6; // 执行脚本的标准输入
+    int32 timeout = 7; // 执行脚本的超时时间，单位秒
+    bool cancel = 8; // 是否取消执行
+}
+message SSHExecResponse {
+    string cmd_id = 1; // 消息ID
+    string ctx_id = 2; // 执行上下文ID
+    meta.v1.base.RunStatus status = 3;
+    meta.v1.base.Log log = 4;
+}
+
+// 执行套件
+message SuiteFuncParams {
+    string rid = 1;
+    string suite_func = 2;
+    string param = 3;
+}
+message SuiteRun {
+    string dir = 1;
+    string suite_code = 2;
+    string version = 3;
+    string filename = 4;
+    string cmd = 5;
+    meta.v1.base.JsonString conf = 6;
+    repeated meta.v1.monit.SuiteFuncParams funcs = 7;
+}
+message SuiteRunResponse {
+    meta.v1.base.RunStatus status = 1;
+    meta.v1.base.Log log = 2;
+    string rid = 3;
+    meta.v1.base.JsonString res = 4;
+}
+
+// 安装证书
+message CertInstall {
+    string cert = 1;
+}
+
+// 机器状态
+message Stats {
+    meta.v1.monit.Machine machine = 1;
+    int64 timestamp = 2;
+    meta.v1.monit.Monit monit = 3;
+}
+message Monit {
+    int64 cpu_total = 1;
+    double cpu_percent = 2;
+    int64 mem_total = 3;
+    int64 mem_used = 4;
+    double mem_percent = 5;
+    int64 net_in = 6;
+    int64 net_out = 7;
+    string ip_in = 8;
+    string ip_out = 9;
+    string boot_time = 10;
+    bool is_docker = 11;
+    repeated meta.v1.monit.Disk disks = 12;
+    repeated meta.v1.monit.Process processes = 13;
+    repeated meta.v1.monit.Docker dockers = 14;
+}
+message Disk {
+    string device = 1;
+    string path = 2;
+    int64 total = 3;
+    int64 used = 4;
+    double percent = 5;
+}
+message Process{
+    int64 pid = 1;
+    string name = 2;
+    double cpu_percent = 3;
+    double mem_percent = 4;
+}
+message Docker{
+    string container_id = 1;
+    string container_name = 2;
+    string image = 3;
+    string command = 4;
+    int64 created = 5;
+    repeated string ports = 6;
+    string status = 7;
+    string state = 8;
+    string network = 9;
+    repeated string ip = 10;
+    repeated string mounts = 11;
+}

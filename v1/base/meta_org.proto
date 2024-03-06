@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package meta.v1.base;
+
+option go_package = "github.com/zj-sh/meta/v1/base";
+
+import "v1/base/meta.proto";
+
+enum OrgSyncType {
+    SYNC_TYPE_UNKNOWN = 0;
+    SYNC_TYPE_CORP = 1;
+    SYNC_TYPE_USER = 2;
+    SYNC_TYPE_ROLE = 3;
+    SYNC_TYPE_ACTION = 4;
+}
+
+message Authorization {
+    string e = 1;
+    string userid = 2;
+    string user_name = 3;
+    string user_phone = 4;
+    string user_email = 5;
+    string user_avatar = 6;
+    meta.v1.base.Status user_status = 7;
+    string orgid = 8;
+    string org_name = 9;
+    string corpid = 10;
+    string corp_name = 11;
+    string corp_short_name = 12;
+    meta.v1.base.Status corp_status = 13;
+    int32 corp_type = 14;
+    bool is_corp_admin = 15;
+}
+
+message OrgSyncItem {
+    meta.v1.base.OrgSyncType sync_type = 1; // 同步类型
+    string sync_id = 2; // 同步类型表对应的ID
+    string sync_key = 3; // 自定义标识
+    string sync_code = 4; // 三方的唯一键
+    bool sync_flag = 5; // 同步标识，开始同步时会变成false，结束后为true
+    string sync_1 = 6; // 备用字段一
+    string sync_2 = 7; // 备用字段二
+    string sync_3 = 8; // 备用字段三
+    string sync_4 = 9; // 备用字段四
+    string sync_5 = 10; // 备用字段五
+}
+
+message Userinfo {
+    meta.v1.base.Authorization authorization = 1;
+    repeated meta.v1.base.OrgSyncItem sync_items = 2;
+}

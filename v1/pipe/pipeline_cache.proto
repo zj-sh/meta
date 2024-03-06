@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线缓存信息
+
+message PipelineCaches {
+    // @gotags: json:"cache_build" yaml:"cache_build"
+    repeated PipelineCache cache_build = 1;
+    // @gotags: json:"cache_dependent" yaml:"cache_dependent"
+    repeated PipelineCache cache_dependent = 2;
+    // @gotags: json:"cache_product" yaml:"cache_product"
+    repeated PipelineCache cache_product = 3;
+}
+
+message PipelineCache{
+    // @gotags: json:"path" yaml:"path"
+    string path = 1;
+    // @gotags: json:"desc" yaml:"desc"
+    string desc = 2;
+    // @gotags: json:"is_enable" yaml:"is_enable"
+    bool is_enable = 3;
+}

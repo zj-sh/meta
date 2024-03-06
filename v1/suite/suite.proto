@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "google/protobuf/empty.proto";
+import "v1/base/meta.proto";
+import "v1/suite/meta.proto";
+import "v1/suite/meta_running.proto";
+
+import "v1/suite/suite_source_pull.proto";
+import "v1/suite/suite_source_scan.proto";
+import "v1/suite/suite_source_auth.proto";
+import "v1/suite/suite_config.proto";
+import "v1/suite/suite_test.proto";
+import "v1/suite/suite_build.proto";
+import "v1/suite/suite_image.proto";
+import "v1/suite/suite_deploy.proto";
+//import "v1/suite/suite_data.proto";
+import "v1/suite/suite_version.proto";
+import "v1/suite/suite_notify.proto";
+import "v1/suite/suite_approval.proto";
+import "v1/suite/suite_storage.proto";
+import "v1/suite/suite_product.proto";
+import "v1/suite/suite_shell.proto";
+import "v1/suite/suite_issues.proto";
+import "v1/suite/suite_org.proto";
+import "v1/suite/suite_custom.proto";
+import "v1/suite/suite_pipe.proto";
+
+service Suite {
+    // 平台获取套件基本信息
+    rpc Inject(google.protobuf.Empty) returns (meta.v1.suite.SuiteInfo) {}
+    // 平台注入套件配置
+    rpc InjectConfig(meta.v1.base.JsonString) returns (meta.v1.suite.OutResponse) {}
+    // 动态选项接口
+    rpc Options(meta.v1.suite.SuiteApiOptionParam) returns (meta.v1.suite.SuiteApiOptionResult) {}
+
+    /**
+        * 代码拉取接口
+        * 支持 pipe.JobEffect_EFFECT_SOURCE_PULL 任务类型时，需要实现以下接口
+     */
+    rpc SourceClone (SourcePullCloneParam) returns (stream SourcePullResponse) {}
+    rpc SourceCreate (SourcePullCreateParam) returns (meta.v1.suite.OutResponse) {}
+    rpc SourceMerge (SourcePullMergeParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 代码仓库认证接口
+        * 支持 pipe.JobEffect_EFFECT_SOURCE_AUTH 任务类型时，需要实现以下接口
+     */
+    rpc SourceAuthTypeOptions (google.protobuf.Empty) returns (SourceAuthTypeOptionResponse) {}
+    rpc SourceAuthUri (SourceAuthParam) returns (SourceAuthUriResponse) {}
+    rpc SourceAuthAccessToken (SourceAuthParam) returns (SourceAuthTokens) {}
+    rpc SourceAuthRefreshToken (SourceAuthTokens) returns (SourceAuthTokens) {}
+    rpc SourceAuthSSHCredentialCreate (SourceAuthSSHCredential) returns (SourceAuthSSHCredentialId) {}
+    rpc SourceAuthSSHCredentialDelete (SourceAuthSSHCredentialId) returns (meta.v1.suite.OutResponse) {}
+    rpc SourceAuthRepoQuery (SourceAuthRepoQueryRequest) returns (SourceAuthRepoQueryResponse) {}
+    rpc SourceAuthBranchQuery (SourceAuthRepoFullName) returns (SourceAuthBranchTagQueryResponse) {}
+    rpc SourceAuthTagQuery (SourceAuthRepoFullName) returns (SourceAuthBranchTagQueryResponse) {}
+    rpc SourceAuthCommitQuery (SourceAuthRepoFullName) returns (SourceAuthCommitQueryResponse) {}
+    rpc SourceAuthWebhookCreate (SourceAuthWebhook) returns (SourceAuthWebhook) {}
+    rpc SourceAuthWebhookUpdate (SourceAuthWebhook) returns (meta.v1.suite.OutResponse) {}
+    rpc SourceAuthWebhookDelete (SourceAuthWebhook) returns (meta.v1.suite.OutResponse) {}
+
+
+    /**
+        * 代码扫描接口
+        * 支持 pipe.JobEffect_EFFECT_SOURCE_SCAN 任务类型时，需要实现以下接口
+     */
+    rpc SourceScan (SourceScanParam) returns (stream SourceScanResponse) {}
+
+    /**
+        * 配置管理接口
+        * 支持 pipe.JobEffect_EFFECT_CONFIG 任务类型时，需要实现以下接口
+     */
+    rpc Config (ConfigParams) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 测试接口
+        * 支持 pipe.JobEffect_EFFECT_TEST 任务类型时，需要实现以下接口
+     */
+    rpc TestRun (TestRunParam) returns (stream TestRunResponse) {}
+    rpc TestCancel (TestCancelParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 构建接口
+        * 支持 pipe.JobEffect_EFFECT_BUILD 任务类型时，需要实现以下接口
+     */
+    rpc Build(BuildParam) returns (stream BuildResponse) {}
+    // 反向命令执行接口, 当build_type为BUILD_TYPE_BUILD_MACHINE时会监听此接口
+    rpc BuildMachine(stream BuildMachineResponse) returns (stream BuildMachineParam) {}
+
+    /**
+        * 镜像接口
+        * 支持 pipe.JobEffect_EFFECT_IMAGE 任务类型时，需要实现以下接口
+     */
+    rpc ImageBuild (ImageBuildParam) returns (stream ImageBuildResponse) {}
+
+    /**
+        * 部署接口
+        * 支持 pipe.JobEffect_EFFECT_DEPLOY 任务类型时，需要实现以下接口
+     */
+    rpc Deploy (DeployParam) returns (stream DeployResponse) {}
+
+    /**
+        * 数据接口
+        * 支持 pipe.JobEffect_EFFECT_DATA 任务类型时，需要实现以下接口
+     */
+
+    /**
+        * 版本接口
+        * 支持 pipe.JobEffect_EFFECT_VERSION 任务类型时，需要实现以下接口
+     */
+    rpc Version (VersionParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 通知接口
+        * 支持 pipe.JobEffect_EFFECT_NOTIFY 任务类型时，需要实现以下接口
+     */
+    rpc Notify (NotifyParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 审批接口
+        * 支持 pipe.JobEffect_EFFECT_APPROVAL 任务类型时，需要实现以下接口
+     */
+    rpc ApprovalSend (ApprovalSendParam) returns (ApprovalSendResponse) {}
+    rpc ApprovalCancel (ApprovalCancelParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 存储接口
+        * 支持 pipe.JobEffect_EFFECT_STORAGE 任务类型时，需要实现以下接口
+     */
+    rpc StorageUploadStream (stream StorageUploadStreamParam) returns (stream StorageUploadResponse) {}
+    rpc StorageUploadFile (StorageUploadFileParam) returns (StorageUploadResponse) {}
+    rpc StorageDelete (StorageDeleteParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 制品接口
+        * 支持 pipe.JobEffect_EFFECT_PRODUCT 任务类型时，需要实现以下接口
+     */
+    rpc ProductUploadStream (stream ProductUploadStreamParam) returns (stream ProductUploadResponse) {}
+    rpc ProductUploadFile (ProductUploadFileParam) returns (ProductUploadResponse) {}
+    rpc ProductDelete (ProductDeleteParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 脚本接口
+        * 支持 pipe.JobEffect_EFFECT_SHELL 任务类型时，需要实现以下接口
+     */
+    rpc ShellExec (stream ShellExecParam) returns (stream ShellExecResponse) {}
+
+    /**
+        * 协同接口
+        * 支持 pipe.JobEffect_EFFECT_ISSUES 任务类型时，需要实现以下接口
+     */
+    rpc Issues (IssuesParam) returns (meta.v1.suite.OutResponse) {}
+
+    /**
+        * 组织架构同步接口
+        * 支持 pipe.JobEffect_EFFECT_ORG 任务类型时，需要实现以下接口
+     */
+    rpc OrgSync (OrgParam) returns (OrgResponse) {}
+    rpc OrgUserSync (OrgUserParam) returns (OrgUserResponse) {}
+
+    /**
+        * 自定义接口
+        * 支持 pipe.JobEffect_EFFECT_CUSTOM 任务类型时，需要实现以下接口
+     */
+    rpc Custom (CustomParam) returns (stream meta.v1.suite.CustomResponse) {}
+
+    /**
+        * 流水线接口
+        * 支持 pipe.JobEffect_EFFECT_PIPE 任务类型时，需要实现以下接口
+     */
+    rpc PipeRun (PipelineRunParam) returns (PipelineRunResponse) {}
+    rpc PipeCancel (PipelineCancelParam) returns (meta.v1.suite.OutResponse) {}
+}

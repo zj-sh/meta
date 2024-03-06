@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package meta.v1.base;
+
+option go_package = "github.com/zj-sh/meta/v1/base";
+
+enum LogLevel {
+    LOG_LEVEL_UNKNOWN = 0;
+    INFO = 1;
+    WARN = 2;
+    ERROR = 3;
+    SUCCESS = 4;
+}
+message Log {
+    LogLevel level = 1;
+    string message = 2;
+}

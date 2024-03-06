@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+import "v1/pipe/meta_pipe.proto";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线任务信息
+
+message PipelineJobTerm {
+    // @gotags: json:"logic" yaml:"logic"
+    string logic = 1;
+    // @gotags: json:"terms_key" yaml:"terms_key"
+    string terms_key = 2;
+    // @gotags: json:"terms" yaml:"terms"
+    string terms = 3;
+    // @gotags: json:"terms_value" yaml:"terms_value"
+    string terms_value = 4;
+}
+
+message PipelineJobOut {
+    // @gotags: json:"label" yaml:"label"
+    string label = 1;
+    // @gotags: json:"field" yaml:"field"
+    string field = 2;
+}
+
+message PipelineJob{
+    // @gotags: json:"job_id" yaml:"job_id"
+    string job_id = 1;
+    // @gotags: json:"job_name" yaml:"job_name"
+    string job_name = 2;
+    // @gotags: json:"job_effect" yaml:"job_effect"
+    meta.v1.pipe.JobEffect job_effect = 3;
+    // @gotags: json:"suite_code" yaml:"suite_code"
+    string suite_code = 4;
+    // @gotags: json:"node_position" yaml:"node_position"
+    string node_position = 5;
+    // @gotags: json:"node_name" yaml:"node_name"
+    string node_name = 6;
+    // @gotags: json:"node_type" yaml:"node_type"
+    string node_type = 7;
+    // @gotags: json:"prev" yaml:"prev"
+    repeated string prev = 8;
+    // @gotags: json:"next" yaml:"next"
+    repeated string next = 9;
+    // @gotags: json:"param" yaml:"param"
+    string param = 10;
+    // @gotags: json:"terms" yaml:"terms"
+    repeated PipelineJobTerm terms = 11;
+    // @gotags: json:"outs" yaml:"outs"
+    repeated PipelineJobOut outs = 12;
+    // @gotags: json:"no_run" yaml:"no_run"
+    bool no_run = 13;
+    // @gotags: json:"suite_func" yaml:"suite_func"
+    string suite_func = 14;
+}

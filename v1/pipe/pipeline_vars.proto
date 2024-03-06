@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线变量信息
+
+message Var {
+    // @gotags: json:"group_id" yaml:"group_id"
+    string group_id = 1;
+    // @gotags: json:"variable" yaml:"variable"
+    string variable = 2;
+    // @gotags: json:"value" yaml:"value"
+    string value = 3;
+    // @gotags: json:"is_running" yaml:"is_running"
+    bool is_running = 4;
+    // @gotags: json:"is_private" yaml:"is_private"
+    bool is_private = 5;
+    // @gotags: json:"desc" yaml:"desc"
+    string desc = 6;
+    // @gotags: json:"value_real" yaml:"value_real"
+    string value_real = 7;
+}
+
+message VarGroup{
+    // @gotags: json:"group_id" yaml:"group_id"
+    string group_id = 1;
+    // @gotags: json:"group_code" yaml:"group_code"
+    string group_code = 2;
+    // @gotags: json:"group_name" yaml:"group_name"
+    string group_name = 3;
+    // @gotags: json:"group_desc" yaml:"group_desc"
+    string group_desc = 4;
+    // @gotags: json:"variables" yaml:"variables"
+    repeated Var variables = 5;
+}

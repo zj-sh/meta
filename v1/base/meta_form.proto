@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package meta.v1.base;
+
+option go_package = "github.com/zj-sh/meta/v1/base";
+
+import "v1/base/meta.proto";
+
+enum FormFieldType {
+    FIELD_TYPE_UNKNOWN = 0;
+
+    FIELD_ALERT = 101;              // 告警
+    FIELD_INPUT = 102;              // 输入框
+    FIELD_TEXT = 103;               // 文本框
+    FIELD_PWD = 104;                // 密码框
+    FIELD_SELECT = 105;             // 下拉框
+    FIELD_SWITCH = 106;             // 开关
+    FIELD_CODE = 107;               // 代码编辑器
+    FIELD_DATE = 108;               // 日期选择器
+    FIELD_TIME = 109;               // 时间选择器
+    FIELD_DATES = 110;              // 日期范围选择器
+    FIELD_TIMES = 111;              // 时间范围选择器
+    FIELD_NUMBER = 112;             // 数字输入框
+
+    FIELD_SRC_AUTH_TYPE = 201;      // 代码仓库授权认证方式
+    FIELD_SRC_AUTH_USER = 202;      // 代码仓库授权用户
+    FIELD_SRC_REPO = 203;           // 源代码仓库
+    FIELD_SRC_BRANCH = 204;         // 源代码分支
+    FIELD_SRC_TAG = 205;            // 源代码标签
+
+    FIELD_BUILD_TYPES = 301;        // 构建类型
+    FIELD_BUILD_IMAGE = 302;        // 构建镜像
+    FIELD_BUILD_VERSION = 303;      // 构建版本
+    FIELD_BUILD_IMAGE_REPO = 304;   // 镜像仓库
+    FIELD_BUILD_MACHINE = 305;      // 镜像主机
+
+    FIELD_CORE_USER = 800;       // 选择用户
+    FIELD_CORE_ROLE = 801;      // 选择角色
+    FIELD_CORE_ORG = 802;       // 选择组织
+    FIELD_CORE_CORP = 803;      // 选择企业
+    FIELD_CORE_PROJECT = 804;   // 选择项目
+
+    FIELD_SUITE = 900;              // 套件, 需要指定入参job_effect
+    FIELD_SUITE_API_OPTIONS = 901;  // 套件API选项
+}
+
+message FieldList {
+    repeated meta.v1.base.Field fields = 1;
+}
+
+message Field {
+    string label = 1;       // 字段名称
+    string field = 2;       // 字段键
+    string defValue = 3;    // 默认值
+    string tooltip = 4;     // 字段提示
+    meta.v1.base.FormFieldType type = 5;     // 字段类型
+    string codeLang = 6;    // 代码语言
+    int32 codeTemplate = 7; // 代码模板 2dockerfile 3yaml 4xml 5json 6shell 7ini,
+    int32 span = 8;         // 字段宽度,24是一整行，等比换算
+    bool required = 9;      // 是否必填（仅对201以后的类型有效，之前的请写rule）
+    bool allowVariable = 10; // 是否允许变量
+    repeated string multivalued = 11; // 多值
+    repeated meta.v1.base.FieldDepend depend = 12; // 依赖，单项内的规则是或，多项内的规则是与
+    repeated meta.v1.base.Option options = 13; // 选项
+    repeated string params = 14;  // 参数，如果是动态字段，给定key，如果是常量，格式为 'key=value', 如 'job_effect=1'
+    repeated FieldRule rules = 15; // 校验规则
+    bool multiple = 16;   // 是否多选，仅对选项类型有效(105 || >=201)
+    string group = 17;    // 字段分组,详情参考SuiteFieldConfig
+    string suiteApiQueryName = 18; // 套件API配置
+}
+
+message FieldDepend{
+    string field = 1;   // 依赖此字段值满足以下某条件才显示
+    string equal = 2;   // 等于某值
+    string noEqual = 3; // 不等于某值
+    bool after = 4;     // 在field字段有值之后才显示
+}
+
+message FieldRule {
+    string type = 1;        // 校验类型,支持string/number/boolean/array/object/email/url/ip
+    bool required = 2;      // 是否必填
+    string message = 3;     // 校验失败提示
+    int32 minLength = 4;    // 最小长度，当type为string, array时有效
+    int32 maxLength = 5;    // 最大长度，当type为string, array时有效
+    string match = 6;       // 正则表达式，当type为string时有效
+    int32 min = 7;          // 最小值，当type为number时有效
+    int32 max = 8;          // 最大值，当type为number时有效
+}
+
+// 通用字段列表
+message LabelFieldList {
+    repeated LabelField list = 1;
+}
+message LabelField {
+    string label = 1;
+    string field = 2;
+}

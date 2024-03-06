@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/suite/meta_running.proto";
+
+message ProductUploadStreamParam {
+    meta.v1.base.JsonString params = 1;
+    string pkg_name = 2;
+    string pkg_version = 3;
+    int64 pkg_size = 4;
+    string md5 = 5;
+    int64 size = 6;
+    bytes byte = 7;
+    bool done = 8;
+}
+
+message ProductUploadFileParam {
+    meta.v1.base.JsonString params = 1;
+    string pkg_name = 2;
+    string pkg_version = 3;
+    string filepath = 4;
+}
+
+message ProductUploadResponse {
+    string id = 1;
+    meta.v1.base.RunStatus status = 2;
+    string message = 3;
+    meta.v1.suite.OutResponse outs = 4;
+}
+
+message ProductDeleteParam {
+    meta.v1.base.JsonString params = 1;
+    string id = 2;
+}

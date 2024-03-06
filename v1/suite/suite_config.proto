@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+message ConfigParams {
+
+}

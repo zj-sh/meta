@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/suite/meta_running.proto";
+
+enum StorageType {
+    STORAGE_TYPE_UNKNOWN = 0;
+
+    STORAGE_TYPE_LOCAL = 1;
+
+    STORAGE_TYPE_S3 = 10;
+    STORAGE_TYPE_OSS = 11;
+    STORAGE_TYPE_COS = 12;
+    STORAGE_TYPE_SFS = 13;
+    STORAGE_TYPE_QINIU = 14;
+
+    STORAGE_TYPE_PV = 20;
+}
+
+message StorageUploadStreamParam {
+    meta.v1.base.JsonString params = 1;
+    string filename = 2;
+    int64 filesize = 3;
+    string md5 = 4;
+    int64 size = 5;
+    bytes byte = 6;
+    bool done = 7;
+}
+message StorageUploadFileParam {
+    meta.v1.base.JsonString params = 1;
+    string filename = 2;
+    string filepath = 3;
+}
+
+message StorageUploadResponse {
+    meta.v1.base.RunStatus status = 1;
+    string fileid = 2;
+    string filepath = 3;
+    StorageType storage_type = 4;
+    string message = 5;
+    meta.v1.suite.OutResponse outs = 6;
+}
+
+message StorageDeleteParam {
+    meta.v1.base.JsonString params = 1;
+    string fileid = 2;
+    string filepath = 3;
+}

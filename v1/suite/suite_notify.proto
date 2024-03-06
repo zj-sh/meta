@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/base/meta_org.proto";
+import "v1/base/meta_log.proto";
+
+enum NotifyToType {
+    NOTIFY_TO_TYPE_UNKNOWN = 0;
+    NOTIFY_TO_TYPE_USER = 1;
+    NOTIFY_TO_TYPE_ORG = 2;
+    NOTIFY_TO_TYPE_ROLE = 3;
+    NOTIFY_TO_TYPE_CUSTOM = 4;
+}
+
+message NotifyParam {
+    meta.v1.base.JsonString params = 1;
+    meta.v1.base.Userinfo to = 2;          // 消息主要接收人(必须)
+    repeated meta.v1.base.Userinfo at = 3; // 抄送的相关人员(可选)
+    meta.v1.base.LogLevel level = 4;  // 通知的级别
+    string title = 5;                 // 通知的标题
+    string rich_text = 6;             // 通知的富文本（rich_text == markdown == content）
+    string markdown = 7;              // 通知的markdown（rich_text == markdown == content）
+    string content = 8;               // 通知的内容纯文本（rich_text == markdown == content）
+    string url = 9;                   // 通知的url，如果有值说明可以支持跳转
+}

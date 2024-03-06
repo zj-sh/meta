@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta_form.proto";
+import "v1/pipe/meta_pipe.proto";
+
+// 套件基本信息
+
+message SuiteInfo {
+    string suiteCode = 1;
+    string suiteName = 2;
+    repeated meta.v1.pipe.JobEffect jobEffects = 3;
+    string suiteProvider = 4;
+    string suiteIcon = 5;
+    string suiteLang = 6;
+    string suiteCmd = 7;
+    string suiteVersion = 8;
+    string suiteDesc = 9;
+    meta.v1.base.FieldList suiteFieldConfig = 10;
+    map<string, meta.v1.base.FieldList> suiteFieldIn = 11;
+    map<string, meta.v1.base.LabelFieldList> suiteFieldOut = 12;
+    string suiteFileSuffix = 13;
+}

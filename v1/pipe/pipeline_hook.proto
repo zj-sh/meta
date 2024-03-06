@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线HOOK信息
+
+message PipelineHook {
+    // @gotags: json:"webhook_enable" yaml:"webhook_enable"
+    bool webhook_enable = 1;
+    // @gotags: json:"webhook_uri" yaml:"webhook_uri"
+    string webhook_uri = 2;
+    // @gotags: json:"api_enable" yaml:"api_enable"
+    bool api_enable = 3;
+    // @gotags: json:"api_actions" yaml:"api_actions"
+    repeated string api_actions = 4;
+    // @gotags: json:"cron_enable" yaml:"cron_enable"
+    bool cron_enable = 5;
+    // @gotags: json:"cron_mode" yaml:"cron_mode"
+    string cron_mode = 6;
+    // @gotags: json:"cron_expression" yaml:"cron_expression"
+    string cron_expression = 7;
+    // @gotags: json:"cron_reset_on_run" yaml:"cron_reset_on_run"
+    bool cron_reset_on_run = 8;
+}

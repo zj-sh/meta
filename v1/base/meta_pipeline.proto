@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package meta.v1.base;
+
+option go_package = "github.com/zj-sh/meta/v1/base";
+
+enum BuildArch {
+    BUILD_ARCH_UNSPECIFIED = 0;
+    BUILD_ARCH_AMD64 = 1;
+    BUILD_ARCH_ARM64 = 2;
+}

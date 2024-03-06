@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+import "google/protobuf/timestamp.proto";
+import "v1/pipe/pipeline_job.proto";
+import "v1/pipe/pipeline_vars.proto";
+import "v1/pipe/pipeline_hook.proto";
+import "v1/pipe/pipeline_cache.proto";
+import "v1/pipe/pipeline_role.proto";
+import "v1/pipe/pipeline_status.proto";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线结构体
+
+enum PipelineType {
+    PIPELINE_TYPE_UNKNOWN = 0;
+    SERVICES = 1;
+    SINGLE = 2;
+    TEMPLATE = 3;
+}
+
+message Pipeline{
+    // @gotags: json:"pipeline_id" yaml:"-"
+    string pipeline_id = 1;
+    // @gotags: json:"pipeline_name" yaml:"pipeline_name" binding:"required"
+    string pipeline_name = 2;
+    // @gotags: json:"pipeline_type" yaml:"pipeline_type" binding:"required"
+    meta.v1.pipe.PipelineType pipeline_type = 3;
+    // @gotags: json:"service_id" yaml:"service_id"
+    string service_id = 4;
+    // @gotags: json:"service_name" yaml:"service_name"
+    string service_name = 5;
+    // @gotags: json:"env_id" yaml:"env_id"
+    string env_id = 6;
+    // @gotags: json:"env_name" yaml:"env_name"
+    string env_name = 7;
+    // @gotags: json:"project_id" yaml:"project_id"
+    string project_id = 8;
+    // @gotags: json:"project_name" yaml:"project_name"
+    string project_name = 9;
+    // @gotags: json:"corpid" yaml:"-"
+    string corpid = 10;
+    // @gotags: json:"corp_name" yaml:"-"
+    string corp_name = 11;
+    // @gotags: json:"pipeline_desc" yaml:"pipeline_desc"
+    string pipeline_desc = 12;
+    // @gotags: json:"allow_parallel" yaml:"allow_parallel"
+    bool allow_parallel = 13;
+    // @gotags: json:"allow_manual" yaml:"allow_manual"
+    bool allow_manual = 14;
+    // @gotags: json:"allow_auto_cancel" yaml:"allow_auto_cancel"
+    bool allow_auto_cancel = 15;
+    // @gotags: json:"allow_all_corp" yaml:"allow_all_corp"
+    bool allow_all_corp = 16;
+    // @gotags: json:"allow_test" yaml:"allow_test"
+    bool allow_test = 17;
+    // @gotags: json:"pipeline_star" yaml:"-"
+    bool pipeline_star = 18;
+    // @gotags: json:"timeout" yaml:"timeout"
+    int64 timeout = 19;
+    // @gotags: json:"pipeline_status" yaml:"-"
+    meta.v1.pipe.PipelineStatus pipeline_status = 20;
+    // @gotags: json:"pipeline_hook" yaml:"pipeline_hook"
+    meta.v1.pipe.PipelineHook pipeline_hook = 21;
+    // @gotags: json:"pipeline_variables" yaml:"pipeline_variables"
+    repeated Var pipeline_variables = 22;
+    // @gotags: json:"pipeline_cache" yaml:"pipeline_cache"
+    meta.v1.pipe.PipelineCaches pipeline_cache = 23;
+    // @gotags: json:"pipeline_role" yaml:"pipeline_role"
+    meta.v1.pipe.PipelineRoles pipeline_role = 24;
+    // @gotags: json:"pipeline_jobs" yaml:"pipeline_jobs"
+    repeated meta.v1.pipe.PipelineJob pipeline_jobs = 25;
+    // @gotags: json:"create_by" yaml:"-"
+    string create_by = 26;
+    // @gotags: json:"update_by" yaml:"-"
+    string update_by = 27;
+    // @gotags: json:"create_time" yaml:"-"
+    google.protobuf.Timestamp create_time = 28;
+    // @gotags: json:"update_time" yaml:"-"
+    google.protobuf.Timestamp update_time = 29;
+}

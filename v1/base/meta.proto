@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package meta.v1.base;
+
+option go_package = "github.com/zj-sh/meta/v1/base";
+
+// String的别名，通用JSON字符串，用以区分是否普通字符串
+message JsonString {
+    string value = 1;
+}
+
+// 通用选项
+message Option {
+    // @gotags: json:"label" gorm:"-"
+    string label = 1;
+    // @gotags: json:"value" gorm:"-"
+    string value = 2;
+    // @gotags: json:"children" gorm:"-"
+    repeated Option children = 4;
+}
+
+// 通用分页
+message Pages {
+    int64 page = 1; // 从1开始
+    int64 rows = 2;
+    oneof cursor {
+        string next = 3;
+        int64 limit = 4;
+    }
+}
+
+// 通用执行状态
+enum RunStatus {
+    // 未知
+    RUN_STATUS_UNKNOWN = 0;
+    // 进行中
+    RUN_STATUS_PROCESSING = 1;
+    // 成功
+    RUN_STATUS_SUCCESS = 2;
+    // 失败
+    RUN_STATUS_FAILED = 3;
+    // 完成
+    RUN_STATUS_COMPLETED = 4;
+}
+
+// 通用状态
+enum Status {
+    STATUS_UNKNOWN = 0;
+    // 正常
+    STATUS_NORMAL = 1;
+    // 锁定
+    STATUS_LOCKED = 2;
+    // 禁用
+    STATUS_DISABLE = 3;
+    // 删除
+    STATUS_DELETED = 4;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package meta.v1.suite;
+option go_package = "github.com/zj-sh/meta/v1/suite";
+
+import "v1/base/meta.proto";
+import "v1/suite/meta_running.proto";
+
+message ApprovalSendParam {
+    meta.v1.base.JsonString params = 1;
+    string email = 2;
+    string phone = 3;
+}
+message ApprovalSendResponse {
+    string id = 1;
+    meta.v1.suite.OutResponse outs = 2;
+}
+message ApprovalCancelParam {
+    meta.v1.base.JsonString params = 1;
+    string id = 2;
+}

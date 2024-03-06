@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package meta.v1.pipe;
+option go_package = "github.com/zj-sh/meta/v1/pipe";
+
+/* 注意：gotags不可随意更改，涉及到流水线复制功能 */
+
+// 流水线权限信息
+
+message PipelineRoles{
+    // @gotags: json:"allow_all_corp" yaml:"allow_all_corp"
+    bool allow_all_corp = 1;
+    // @gotags: json:"roles" yaml:"roles"
+    repeated PipelineRole roles = 2;
+}
+message PipelineRole{
+    // @gotags: json:"role_type" yaml:"role_type"
+    string role_type = 1;
+    // @gotags: json:"role_code" yaml:"role_code"
+    string role_code = 2;
+    // @gotags: json:"allow_run" yaml:"allow_run"
+    bool allow_run = 3;
+    // @gotags: json:"allow_edit" yaml:"allow_edit"
+    bool allow_edit = 4;
+    // @gotags: json:"allow_delete" yaml:"allow_delete"
+    bool allow_delete = 5;
+    // @gotags: json:"allow_share" yaml:"allow_share"
+    bool allow_share = 6;
+}

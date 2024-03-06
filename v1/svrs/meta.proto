@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package meta.v1.svrs;
+option go_package = "github.com/zj-sh/meta/v1/svrs";
+
+import "google/protobuf/any.proto";
+import "v1/pipe/pipeline_vars.proto";
+import "v1/envs/meta.proto";
+
+enum ServiceType {
+    SERVICE_TYPE_UNKNOWN = 0;
+    KUBERNETES = 1;
+    HELM = 2;
+    DOCKER = 3;
+    MACHINE = 4;
+    OTHER = 99;
+}
+enum ActionType{
+    SERVICE_ACTION_TYPE_UNKNOWN = 0;
+    DELETE_ENV = 1;
+}
+
+message ServiceTypeOption {
+    meta.v1.svrs.ServiceType value = 1;
+    string label = 2;
+}
+
+message Service {
+    // @gotags: json:"service_id" yaml:"-"
+    string service_id = 1;
+    // @gotags: json:"service_code" yaml:"service_code" binding:"required"
+    string service_code = 2;
+    // @gotags: json:"service_name" yaml:"service_name" binding:"required"
+    string service_name = 3;
+    // @gotags: json:"service_type" yaml:"service_type" binding:"required"
+    meta.v1.svrs.ServiceType service_type = 4;
+    // @gotags: json:"service_desc" yaml:"service_desc"
+    string service_desc = 5;
+    // @gotags: json:"project_id" yaml:"project_id" binding:"required"
+    string project_id = 6;
+    // @gotags: json:"project_code" yaml:"project_code" binding:"required"
+    repeated ServiceSrc service_srcs = 7;
+    // @gotags: json:"service_items" yaml:"service_items" binding:"required"
+    repeated ServiceItem service_items = 8;
+    // @gotags: json:"service_variables" yaml:"service_variables" binding:"required"
+    repeated meta.v1.pipe.Var service_variables = 9;
+    // @gotags: json:"service_envs" yaml:"service_envs" binding:"required"
+    repeated meta.v1.envs.Env service_envs = 10;
+    // @gotags: json:"service_pipelines" yaml:"service_pipelines" binding:"required"
+    repeated meta.v1.svrs.ServicePipeline service_pipelines = 11;
+    // @gotags: json:"actions" yaml:"-"
+    repeated meta.v1.svrs.ServiceAction actions = 12;
+}
+
+message ServiceSrc {
+    // @gotags: json:"key" yaml:"key"
+    string key = 1;
+    // @gotags: json:"title" yaml:"title"
+    string title = 2;
+    // @gotags: json:"isRoot" yaml:"isRoot"
+    bool isRoot = 3;
+    // @gotags: json:"isLeaf" yaml:"isLeaf"
+    bool isLeaf = 4;
+    // @gotags: json:"isImport" yaml:"isImport"
+    bool isImport = 5;
+    // @gotags: json:"code" yaml:"code"
+    string code = 6;
+    // @gotags: json:"children" yaml:"children"
+    repeated meta.v1.svrs.ServiceSrc children = 7;
+}
+
+message ServiceItem {
+    // @gotags: json:"name" yaml:"name"
+    string name = 1;
+    // @gotags: json:"image" yaml:"image"
+    string image = 2;
+    // @gotags: json:"file" yaml:"file"
+    string file = 3;
+    // @gotags: json:"allow_build" yaml:"allow_build"
+    bool allow_build = 4;
+    // @gotags: json:"envs" yaml:"envs"
+    repeated meta.v1.envs.Env envs = 5;
+}
+
+message ServicePipeline {
+    string name = 1;
+    string image = 2;
+    bool allow_build = 3;
+    string pipeline_id = 4;
+    string pipeline_name = 5;
+    repeated string env_codes = 6;
+    map<string, google.protobuf.Any> src = 7;
+    int32 count = 8;
+}
+
+message ServiceAction {
+    meta.v1.svrs.ActionType action = 1;
+    string env_id = 2;
+    bool is_del_namespace = 3;
+}

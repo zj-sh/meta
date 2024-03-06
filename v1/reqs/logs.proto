@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package meta.v1.reqs;
+option go_package = "github.com/zj-sh/meta/v1/reqs";
+
+message ParamLogsLink {
+    string request_id = 1;
+    int64 time = 2;
+    int64 delay = 3;
+    string server = 4;
+    string auth = 5;
+    string head = 6;
+    string param = 7;
+    string data = 8;
+    string error = 9;
+}
+
+message ParamLogsOperation {
+    string request_id = 1;
+    string corpid = 2;
+    string userid = 3;
+    string user_name = 4;
+    string client_ip = 5;
+    string server_name = 6;
+    string operate = 7;
+    string func = 8;
+    string param = 9;
+    int64 time = 10;
+}
+
+message ParamLogsLogin {
+    string corpid = 1;
+    string userid = 2;
+    string user_name = 3;
+    string login_mode = 4;
+    string login_client = 5;
+    string login_account = 6;
+    string login_ip = 7;
+    int32 login_status = 8;
+    int64 time = 9;
+    string desc = 10;
+    string token = 11;
+}
