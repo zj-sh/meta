@@ -6,8 +6,10 @@ func (p Type) PathName() string {
 		return "kit"
 	case Type_EXECFILE:
 		return "exec"
-	case Type_CONTAINER:
+	case Type_IMAGE:
 		return "image"
+	case Type_HELM:
+		return "helm"
 	default:
 		return "unknown"
 	}

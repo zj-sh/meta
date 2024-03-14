@@ -9,7 +9,8 @@ enum Type {
     UNKNOWN = 0;
     KIT = 1;
     EXECFILE = 2;
-    CONTAINER = 3;
+    IMAGE = 3;
+    HELM = 4;
 }
 
 message Plugin {
@@ -25,14 +26,16 @@ message Plugin {
     string prescript = 5;
     // @gotags: json:"image,omitempty" yaml:"image,omitempty"
     Image image = 6;
+    // @gotags: json:"helmRepo,omitempty" yaml:"helmRepo,omitempty"
+    string helmRepo = 7;
     // @gotags: json:"effects,omitempty" yaml:"effects,omitempty"
-    repeated int64 effects = 7;
+    repeated int64 effects = 8;
     // @gotags: json:"support,omitempty" yaml:"support,omitempty"
-    Support support = 8;
+    Support support = 9;
     // @gotags: json:"metadata,omitempty" yaml:"metadata,omitempty"
-    Metadata metadata = 9;
+    Metadata metadata = 10;
     // @gotags: json:"repo,omitempty" yaml:"repo,omitempty"
-    string repo = 10;
+    string repo = 11;
 }
 
 message Image{
