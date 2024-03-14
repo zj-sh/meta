@@ -26,8 +26,8 @@ message Plugin {
     string prescript = 5;
     // @gotags: json:"image,omitempty" yaml:"image,omitempty"
     Image image = 6;
-    // @gotags: json:"helmRepo,omitempty" yaml:"helmRepo,omitempty"
-    string helmRepo = 7;
+    // @gotags: json:"helm,omitempty" yaml:"helm,omitempty"
+    Helm helm = 7;
     // @gotags: json:"effects,omitempty" yaml:"effects,omitempty"
     repeated int64 effects = 8;
     // @gotags: json:"support,omitempty" yaml:"support,omitempty"
@@ -37,7 +37,14 @@ message Plugin {
     // @gotags: json:"repo,omitempty" yaml:"repo,omitempty"
     string repo = 11;
 }
-
+message Helm{
+    // @gotags: json:"repo,omitempty" yaml:"repo,omitempty"
+    string repo = 1;
+    // @gotags: json:"chart,omitempty" yaml:"chart,omitempty"
+    string chart = 2;
+    // @gotags: json:"flags,omitempty" yaml:"flags,omitempty"
+    repeated string flags = 3;
+}
 message Image{
     // @gotags: json:"name,omitempty" yaml:"name,omitempty"
     string name = 1;
