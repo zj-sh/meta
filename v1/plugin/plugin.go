@@ -2,10 +2,13 @@ package plugin
 
 import (
 	"fmt"
+	"github.com/zj-sh/meta/v1/pipe"
 	"github.com/zohu/reg"
 	"os"
 	"path/filepath"
 	"reflect"
+	"slices"
+	"strings"
 )
 
 const (
@@ -39,6 +42,18 @@ func (p *Plugin) Verify(dir string) error {
 	}
 	if len(p.GetEffects()) == 0 {
 		return fmt.Errorf("effects is required")
+	}
+	effs := pipe.JobEffectAllOptions()
+	for _, e := range p.GetEffects() {
+		if !slices.ContainsFunc(effs, func(s pipe.JobEffectOption) bool {
+			return int64(s.Value) == e
+		}) {
+			var ps []string
+			for _, ef := range effs {
+				ps = append(ps, fmt.Sprintf("%d:%s", ef.Value, ef.Label))
+			}
+			return fmt.Errorf("invalid effect: %d, ps: %s", e, strings.Join(ps, ", "))
+		}
 	}
 	if reg.Version(p.GetSupport().GetRuntimeVersion()).IsVersionSupport().NotB() {
 		return fmt.Errorf("runtime version must be specified, supports prefixes: (~) patch, (^) minor, (>=) greater than or equal to, (<=) less than or equal to, default *")

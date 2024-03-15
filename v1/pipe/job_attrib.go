@@ -1,5 +1,7 @@
 package pipe
 
+import "slices"
+
 type JobAttribOption struct {
 	Label string    `json:"label"` // 任务类型
 	Value JobAttrib `json:"value"` // 任务类型
@@ -18,6 +20,13 @@ type JobEffectOption struct {
 	Func  string    `json:"func"`  // 函数
 	Color string    `json:"color"` // 颜色
 	Desc  string    `json:"desc"`  // 描述
+}
+
+func JobEffectAllOptions() []JobEffectOption {
+	return slices.Concat(
+		JobEffectOptions(JobAttrib_ATTRIB_PLATFORM),
+		JobEffectOptions(JobAttrib_ATTRIB_PIPELINE),
+	)
 }
 
 // JobEffectOptions
