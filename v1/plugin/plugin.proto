@@ -3,8 +3,6 @@ syntax = "proto3";
 package meta.v1.plugin;
 option go_package = "github.com/zj-sh/meta/v1/plugin";
 
-import "google/protobuf/timestamp.proto";
-
 enum Type {
     UNKNOWN = 0;
     KIT = 1;
@@ -97,7 +95,7 @@ message Metadata {
     // @gotags: json:"maintainers,omitempty" yaml:"maintainers,omitempty"
     repeated Maintainer maintainers = 5;
     // @gotags: json:"generated,omitempty" yaml:"generated,omitempty"
-    google.protobuf.Timestamp generated = 6;
+    string generated = 6;
 }
 
 message Author{
@@ -108,5 +106,5 @@ message Author{
     // @gotags: json:"ip,omitempty" yaml:"ip,omitempty"
     string ip = 3;
     // @gotags: json:"generated,omitempty" yaml:"generated,omitempty"
-    google.protobuf.Timestamp generated = 4;
+    string generated = 4;
 }
