@@ -3,7 +3,8 @@ module github.com/zj-sh/meta
 go 1.22
 
 require (
-	github.com/bytedance/sonic v1.11.2
+	github.com/bytedance/sonic v1.11.3
+	github.com/zohu/reg v0.0.6
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.33.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -18,7 +19,6 @@ require (
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	github.com/zohu/reg v0.0.6 // indirect
 	golang.org/x/arch v0.7.0 // indirect
 	golang.org/x/net v0.22.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
