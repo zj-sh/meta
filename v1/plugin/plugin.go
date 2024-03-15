@@ -58,18 +58,24 @@ func (p *Plugin) Verify(dir string) error {
 	if reg.Version(p.GetSupport().GetRuntimeVersion()).IsVersionSupport().NotB() {
 		return fmt.Errorf("runtime version must be specified, supports prefixes: (~) patch, (^) minor, (>=) greater than or equal to, (<=) less than or equal to, default *")
 	}
-	if len(p.GetSupport().GetOs()) == 0 {
-		return fmt.Errorf("support os is required")
-	}
-	if len(p.GetSupport().GetArch()) == 0 {
-		return fmt.Errorf("support arch is required")
-	}
 	switch p.GetType() {
 	case Type_KIT:
+		if len(p.GetSupport().GetOs()) == 0 {
+			return fmt.Errorf("support os is required")
+		}
+		if len(p.GetSupport().GetArch()) == 0 {
+			return fmt.Errorf("support arch is required")
+		}
 		if !existed(filepath.Join(dir, "kit.sh")) {
 			return fmt.Errorf("%s/kit.sh is required", dir)
 		}
 	case Type_EXECFILE:
+		if len(p.GetSupport().GetOs()) == 0 {
+			return fmt.Errorf("support os is required")
+		}
+		if len(p.GetSupport().GetArch()) == 0 {
+			return fmt.Errorf("support arch is required")
+		}
 		p.Prescript = firstTruthValue(p.GetPrescript(), "@")
 		if reg.String(p.GetPrescript()).Match(DefaultExecPrescriptPattern).NotB() {
 			return fmt.Errorf("prescript must have the @ symbol")
@@ -86,6 +92,12 @@ func (p *Plugin) Verify(dir string) error {
 			return fmt.Errorf("%s/main(.*)? is required", dir)
 		}
 	case Type_IMAGE:
+		if len(p.GetSupport().GetOs()) == 0 {
+			return fmt.Errorf("support os is required")
+		}
+		if len(p.GetSupport().GetArch()) == 0 {
+			return fmt.Errorf("support arch is required")
+		}
 		if p.GetImage() != nil {
 			if p.GetImage().GetName() == "" {
 				return fmt.Errorf("image.name is required")
